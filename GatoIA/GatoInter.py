@@ -1,19 +1,9 @@
 from customtkinter import *
 
 class Gato():
-    juego = (False,"")
-    turno = False
-    casillas = [
-        #usable,valor
-        (True,0),(True,0),(True,0),
-        (True,0),(True,0),(True,0),
-        (True,0),(True,0),(True,0)
-        ]
-
-
     def __init__(self):
         super().__init__()
-        self.ventana=CTk()
+        self.ventana = CTk()
         self.ventana.title("UwU-Gato")
         ancho_pantalla = self.ventana.winfo_screenwidth()
         alto_pantalla = self.ventana.winfo_screenheight()
@@ -23,69 +13,63 @@ class Gato():
         y_pos = (alto_pantalla - alto_ventana) // 2
         self.ventana.geometry(f"{ancho_ventana}x{alto_ventana}+{x_pos}+{y_pos}")
         self.ventana.resizable(0, 0)
-        #self.ventana.propagate(0)
-        #self.ventana.overrideredirect(True)
-        self.ventana._set_appearance_mode("light")
+        self.ventana._set_appearance_mode("black")
         
-        self.almacenador=CTkFrame(master=self.ventana,width=414,height=511)
+        self.almacenador2 = CTkFrame(master=self.ventana, width=350, height=100, border_color="white")
+        self.almacenador2.pack_propagate(0)
+        self.almacenador2.pack(side=TOP, pady=10)
+
+        
+        self.LBNomb = CTkLabel(master=self.almacenador2, text="UwU Gato IA", font=("Poppins",20,"bold"))
+        self.LBNomb.pack(pady=5)
+
+        self.AlmBtn = CTkFrame(master=self.almacenador2, width=350, height=50)
+        self.AlmBtn.pack_propagate(0)
+        self.AlmBtn.pack(pady=10)
+
+        self.BtnSalir = CTkButton(master=self.AlmBtn, text="Salir", font=("Poppins", 20, "bold"), width=100)
+        self.BtnSalir.pack(side=LEFT, padx=20)
+
+        self.BtnIn = CTkButton(master=self.AlmBtn, text="Iniciar", font=("Poppins", 20, "bold"), width=100)
+        self.BtnIn.pack(side=RIGHT, padx=20)
+        
+        
+        self.almacenador = CTkFrame(master=self.ventana, width=350, height=350, border_color="white")
         self.almacenador.pack_propagate(0)
-        self.almacenador.pack(expand=True)
+        self.almacenador.pack(expand=True, pady=10)
+
+        self.AlmBtns = CTkFrame(master=self.almacenador, width=250, height=250, border_color="gray")
+        self.AlmBtns.pack_propagate(0)
+        self.AlmBtns.place(relx=0.5, rely=0.5, anchor=CENTER)  
+
         
-        self.Bt1=CTkButton(master=self.almacenador,width=138,height=50,text="1",font=("Poppins",30,"bold"),command=lambda:self.tirar("11"))
-        self.Bt1.place(x=0,y=0)
-        
-        self.Bt2=CTkButton(master=self.almacenador,width=138,height=50,text="2",font=("Poppins",30,"bold"),command=lambda:self.tirar("12"))
-        self.Bt2.place(x=138,y=0)
-        
-        self.Bt3=CTkButton(master=self.almacenador,width=138,height=50,text="3",font=("Poppins",30,"bold"),command=lambda:self.tirar("13"))
-        self.Bt3.place(x=276,y=0)
-        
-        self.Bt4=CTkButton(master=self.almacenador,width=138,height=50,text="4",font=("Poppins",30,"bold"),command=lambda:self.tirar("21"))
-        self.Bt4.place(x=0,y=150)
-        
-        self.Bt5=CTkButton(master=self.almacenador,width=138,height=50,text="5",font=("Poppins",30,"bold"),command=lambda:self.tirar("22"))
-        self.Bt5.place(x=138,y=150)
-        
-        self.Bt6=CTkButton(master=self.almacenador,width=138,height=50,text="6",font=("Poppins",30,"bold"),command=lambda:self.tirar("23"))
-        self.Bt6.place(x=276,y=150)
-        
-        self.Bt7=CTkButton(master=self.almacenador,width=138,height=50,text="7",font=("Poppins",30,"bold"),command=lambda:self.tirar("31"))
-        self.Bt7.place(x=0,y=300)
-        
-        self.Bt8=CTkButton(master=self.almacenador,width=138,height=50,text="8",font=("Poppins",30,"bold"),command=lambda:self.tirar("32"))
-        self.Bt8.place(x=136,y=300)
-        
-        self.Bt9=CTkButton(master=self.almacenador,width=138,height=50,text="9",font=("Poppins",30,"bold"),command=lambda:self.tirar("33"))
-        self.Bt9.place(x=276,y=300)
-        
+        self.Btn1 = CTkButton(master=self.AlmBtns, text="x", font=("Poppins", 30, "bold"), width=70, height=70)
+        self.Btn1.grid(row=0, column=0, padx=10, pady=10)
+
+        self.Btn2 = CTkButton(master=self.AlmBtns, text="x", font=("Poppins", 30, "bold"), width=70, height=70)
+        self.Btn2.grid(row=0, column=1, padx=10, pady=10)
+
+        self.Btn3 = CTkButton(master=self.AlmBtns, text="x", font=("Poppins", 30, "bold"), width=70, height=70)
+        self.Btn3.grid(row=0, column=2, padx=10, pady=10)
+
+        self.Btn4 = CTkButton(master=self.AlmBtns, text="x", font=("Poppins", 30, "bold"), width=70, height=70)
+        self.Btn4.grid(row=1, column=0, padx=10, pady=10)
+
+        self.Btn5 = CTkButton(master=self.AlmBtns, text="x", font=("Poppins", 30, "bold"), width=70, height=70)
+        self.Btn5.grid(row=1, column=1, padx=10, pady=10)
+
+        self.Btn6 = CTkButton(master=self.AlmBtns, text="x", font=("Poppins", 30, "bold"), width=70, height=70)
+        self.Btn6.grid(row=1, column=2, padx=10, pady=10)
+
+        self.Btn7 = CTkButton(master=self.AlmBtns, text="x", font=("Poppins", 30, "bold"), width=70, height=70)
+        self.Btn7.grid(row=2, column=0, padx=10, pady=10)
+
+        self.Btn8 = CTkButton(master=self.AlmBtns, text="x", font=("Poppins", 30, "bold"), width=70, height=70)
+        self.Btn8.grid(row=2, column=1, padx=10, pady=10)
+
+        self.Btn9 = CTkButton(master=self.AlmBtns, text="x", font=("Poppins", 30, "bold"), width=70, height=70)
+        self.Btn9.grid(row=2, column=2, padx=10, pady=10)
+
         self.ventana.mainloop()
-        
-    def tirar(self,Casilla):
-        NC = ((int(Casilla[0])-1)*3 + int(Casilla[1])-1)
-        print(self.casillas[NC])
-        print(f"NC={NC}")
-        self.casillas[NC] = (False, 1)
-
-        self.ActualizarBTN()
-    def ActualizarBTN(self):
-        if self.juego[1]:
-            print("ganador")
-            print(f"juego {self.juego[1]}")
-        else:
-            self.Bt1.configure(text=self.casillas[0][1])
-            self.Bt2.configure(text=self.casillas[1][1])
-            self.Bt3.configure(text=self.casillas[2][1])
-            self.Bt4.configure(text=self.casillas[3][1])
-            self.Bt5.configure(text=self.casillas[4][1])
-            self.Bt6.configure(text=self.casillas[5][1])
-            self.Bt7.configure(text=self.casillas[6][1])
-            self.Bt8.configure(text=self.casillas[7][1])
-            self.Bt9.configure(text=self.casillas[8][1])
-            
-        
-        
-        print("Actualizado")
-
-
 
 Gato()
