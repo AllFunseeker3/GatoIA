@@ -162,6 +162,8 @@ class Gato():
 
 
     def tirar(self,Casilla):
+        self.turno = not self.turno
+
         NC = ((int(Casilla[0])-1)*3 + int(Casilla[1])-1)
         self.casillas[NC] = (False, 1)
         self.ActualizarBTN()
@@ -170,7 +172,6 @@ class Gato():
             self.ActualizarBTN()
         else:
             self.tirarAI()
-        self.turno = not self.turno
 
     def comprobaciones(self):
         # Combinaciones ganad[oras
