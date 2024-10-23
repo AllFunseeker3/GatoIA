@@ -155,7 +155,6 @@ class Gato():
         if self.comprobaciones():
             # self.ActualizarBTN()    
             self.iniciar()
-            self.ActualizarBTN()
         self.ActualizarBTN()
         
         # self.turno = not self.turno
@@ -163,15 +162,16 @@ class Gato():
 
     def tirar(self,Casilla):
         self.turno = not self.turno
-
-        NC = ((int(Casilla[0])-1)*3 + int(Casilla[1])-1)
-        self.casillas[NC] = (False, 1)
-        self.ActualizarBTN()
         if self.comprobaciones():
             self.iniciar()
-            self.ActualizarBTN()
         else:
+            NC = ((int(Casilla[0])-1)*3 + int(Casilla[1])-1)
+            self.casillas[NC] = (False, 1)
+            self.ActualizarBTN()
             self.tirarAI()
+        if self.comprobaciones():
+            self.iniciar()
+        self.ActualizarBTN()
 
     def comprobaciones(self):
         # Combinaciones ganad[oras
@@ -193,6 +193,7 @@ class Gato():
             if valores[0] == valores[1] == valores[2] != 0:
                 nombre = self.Nombre()
                 messagebox.showinfo("Ganó", f"Ganador {nombre}")
+                # self.iniciar()
                 return True
 
         return False
@@ -200,10 +201,10 @@ class Gato():
     def Nombre(self):
         r = ""
         if self.turno:
-            r = "IA"
+            r = "Jugador"
             return r
         else:
-            r = "Jugador"
+            r = "AI"
             return r
             # print("nombre:IA")
         
