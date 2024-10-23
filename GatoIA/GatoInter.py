@@ -152,11 +152,12 @@ class Gato():
                     return        
 
             # print("IA")
-        self.ActualizarBTN()
         if self.comprobaciones():
-            self.ActualizarBTN()    
+            # self.ActualizarBTN()    
             self.iniciar()
             self.ActualizarBTN()
+        self.ActualizarBTN()
+        
         # self.turno = not self.turno
 
 
