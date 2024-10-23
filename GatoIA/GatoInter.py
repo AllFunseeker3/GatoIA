@@ -97,61 +97,67 @@ class Gato():
             ]
         self.ActualizarBTN()
     def tirarAI(self):
-        # Estrategia básica: primero intenta ganar, luego bloquea al oponente, y si no, juega en una esquina o el centro.
-
-        # Función para comprobar si la IA puede ganar en el siguiente movimiento
-        def puedeGanar(jugador):
-            for combinacion in [
-                [0, 1, 2], [3, 4, 5], [6, 7, 8],  # Filas
-                [0, 3, 6], [1, 4, 7], [2, 5, 8],  # Columnas
-                [0, 4, 8], [2, 4, 6]              # Diagonales
-            ]:
-                valores = [self.casillas[i][1] for i in combinacion]
-                if valores.count(jugador) == 2 and valores.count(0) == 1:
-                    return combinacion[valores.index(0)]  # Retorna la posición para ganar
-            return None
-
-        # 1. Comprobar si la IA puede ganar
-        pos = puedeGanar(2)  # 2 representa a la IA
-        if pos is not None:
-            self.casillas[pos] = (False, 2)
+        if self.comprobaciones():
+            self.ActualizarBTN()    
+            self.iniciar()
             self.ActualizarBTN()
-            return
+        else:
+            self.turno = not self.turno
+            # Estrategia básica: primero intenta ganar, luego bloquea al oponente, y si no, juega en una esquina o el centro.
 
-        # 2. Comprobar si el oponente puede ganar y bloquear
-        pos = puedeGanar(1)  # 1 representa al jugador
-        if pos is not None:
-            self.casillas[pos] = (False, 2)
-            self.ActualizarBTN()
-            return
+            # Función para comprobar si la IA puede ganar en el siguiente movimiento
+            def puedeGanar(jugador):
+                for combinacion in [
+                    [0, 1, 2], [3, 4, 5], [6, 7, 8],  # Filas
+                    [0, 3, 6], [1, 4, 7], [2, 5, 8],  # Columnas
+                    [0, 4, 8], [2, 4, 6]              # Diagonales
+                ]:
+                    valores = [self.casillas[i][1] for i in combinacion]
+                    if valores.count(jugador) == 2 and valores.count(0) == 1:
+                        return combinacion[valores.index(0)]  # Retorna la posición para ganar
+                return None
 
-        # 3. Jugar en el centro si está disponible
-        if self.casillas[4][0]:  # Casilla del centro
-            self.casillas[4] = (False, 2)
-            self.ActualizarBTN()
-            return
-
-        # 4. Jugar en una esquina si está disponible
-        for esquina in [0, 2, 6, 8]:
-            if self.casillas[esquina][0]:
-                self.casillas[esquina] = (False, 2)
+            # 1. Comprobar si la IA puede ganar
+            pos = puedeGanar(2)  # 2 representa a la IA
+            if pos is not None:
+                self.casillas[pos] = (False, 2)
                 self.ActualizarBTN()
                 return
 
-        # 5. Jugar en un lado si está disponible
-        for lado in [1, 3, 5, 7]:
-            if self.casillas[lado][0]:
-                self.casillas[lado] = (False, 2)
+            # 2. Comprobar si el oponente puede ganar y bloquear
+            pos = puedeGanar(1)  # 1 representa al jugador
+            if pos is not None:
+                self.casillas[pos] = (False, 2)
                 self.ActualizarBTN()
-                return        
+                return
 
-        print("IA")
+            # 3. Jugar en el centro si está disponible
+            if self.casillas[4][0]:  # Casilla del centro
+                self.casillas[4] = (False, 2)
+                self.ActualizarBTN()
+                return
+
+            # 4. Jugar en una esquina si está disponible
+            for esquina in [0, 2, 6, 8]:
+                if self.casillas[esquina][0]:
+                    self.casillas[esquina] = (False, 2)
+                    self.ActualizarBTN()
+                    return
+
+            # 5. Jugar en un lado si está disponible
+            for lado in [1, 3, 5, 7]:
+                if self.casillas[lado][0]:
+                    self.casillas[lado] = (False, 2)
+                    self.ActualizarBTN()
+                    return        
+
+            # print("IA")
         self.ActualizarBTN()
         if self.comprobaciones():
             self.ActualizarBTN()    
             self.iniciar()
             self.ActualizarBTN()
-        self.turno = not self.turno
+        # self.turno = not self.turno
 
 
     def tirar(self,Casilla):
@@ -183,8 +189,9 @@ class Gato():
             valores = [self.casillas[i][1] for i in combinacion]
             # print(f"valores:{valores}")
             if valores[0] == valores[1] == valores[2] != 0:
+                nombre = self.Nombre()
+                messagebox.showinfo("Ganó", f"Ganador {nombre}")
                 return True
-                messagebox.showinfo("Ganó", f"Ganador {self.Nombre}")
 
         return False
 
@@ -192,7 +199,7 @@ class Gato():
         r = ""
         if self.turno:
             r = "IA"
-            return r 
+            return r
         else:
             r = "Jugador"
             return r
